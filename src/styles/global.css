@@ -46,16 +46,17 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 .cabecera-inicio {
   position: fixed; top: 0; left: 0; right: 0; z-index: 20;
   max-width: none;
-  background: rgb(255 255 255 / calc((var(--p, 1) - .9) * 10));
 }
-/* Borde inferior difuminado: el blanco de la cabecera se desvanece hacia abajo
-   en vez de cortar el contenido con una línea recta. Aparece a la vez que el fondo. */
+/* Fondo de la cabecera con el borde inferior difuminado: blanco sólido hasta la
+   altura del logo y, desde ahí, se desvanece (dentro de la propia cabecera y un
+   poco por debajo), sin línea recta. Aparece al final de la animación del logo. */
 .cabecera-inicio::after {
   content: '';
   position: absolute;
-  left: 0; right: 0; top: 100%;
-  height: clamp(32px, 6vh, 64px);
-  background: linear-gradient(to bottom, #fff, rgb(255 255 255 / .6) 40%, rgb(255 255 255 / 0));
+  z-index: -1;
+  left: 0; right: 0; top: 0;
+  height: calc(100% + 24px);
+  background: linear-gradient(to bottom, #fff 0, #fff 58%, rgb(255 255 255 / .6) 76%, rgb(255 255 255 / 0) 100%);
   opacity: calc((var(--p, 1) - .9) * 10);
   pointer-events: none;
 }
