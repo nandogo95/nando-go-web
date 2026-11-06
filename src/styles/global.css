@@ -71,8 +71,10 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 .intro-velo {
   position: absolute; inset: 0; pointer-events: none;
   background: #fff;
-  /* las fotos se aclaran pero siguen viéndose detrás del texto (máx. 72 % de blanco) */
-  opacity: calc(.12 + var(--p, 1) * .6);
+  /* Las fotos se aclaran poco a poco y siguen viéndose mientras entra el texto;
+     en el último tramo (desde el 60 %) se funden a blanco del todo, justo cuando
+     el texto llega al centro de la pantalla. */
+  opacity: max(calc(.12 + var(--p, 1) * .5), calc((var(--p, 1) - .6) * 2.5));
 }
 
 /* Portada: texto de presentación tras la intro */
