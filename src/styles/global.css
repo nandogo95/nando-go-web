@@ -48,6 +48,17 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   max-width: none;
   background: rgb(255 255 255 / calc((var(--p, 1) - .9) * 10));
 }
+/* Borde inferior difuminado: el blanco de la cabecera se desvanece hacia abajo
+   en vez de cortar el contenido con una línea recta. Aparece a la vez que el fondo. */
+.cabecera-inicio::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 100%;
+  height: clamp(32px, 6vh, 64px);
+  background: linear-gradient(to bottom, #fff, rgb(255 255 255 / .6) 40%, rgb(255 255 255 / 0));
+  opacity: calc((var(--p, 1) - .9) * 10);
+  pointer-events: none;
+}
 .cabecera-inicio .nav { opacity: calc((var(--p, 1) - .55) * 2.5); }
 .cabecera-inicio .cabecera-logo { display: block; transform-origin: center; will-change: transform; }
 
