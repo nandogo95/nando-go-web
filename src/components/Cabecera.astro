@@ -47,6 +47,7 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
   <script>
     // Portada: el logo empieza grande en el centro de la pantalla y, al bajar,
     // se encoge hasta su sitio en la cabecera (en la primera pantalla y media de scroll).
+    import { ajustarContraste } from '../scripts/contraste';
     const cab = document.querySelector<HTMLElement>('.cabecera-inicio')!;
     const raiz = document.documentElement;
     const logo = cab.querySelector<HTMLElement>('.cabecera-logo')!;
@@ -81,12 +82,16 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
       const k = 1 - e;
       logo.style.transform = `translate(${dx * k}px, ${dy * k}px) scale(${1 + (escala - 1) * k})`;
       raiz.style.setProperty('--p', p.toFixed(3));
+      // Mientras la cabecera aún es transparente, el menú puede quedar sobre las
+      // fotos de la intro: blanco si están oscuras. Con el fondo blanco, color normal.
+      if (p < 0.92) ajustarContraste(enlaces);
+      else for (const a of enlaces) a.classList.remove('sobre-oscuro');
     }
 
     // Menú: marca en azul la sección por la que vas. Una sección cuenta como
     // actual cuando su parte de arriba pasa del 45 % de la pantalla; al llegar
     // al final de la página se marca CONTACT.
-    const enlaces = [...cab.querySelectorAll<HTMLAnchorElement>('a[data-seccion]')];
+    var enlaces = [...cab.querySelectorAll<HTMLAnchorElement>('a[data-seccion]')];
     const secciones = ['projects', 'team', 'contact']
       .map((id) => document.getElementById(id))
       .filter((s): s is HTMLElement => !!s);
@@ -117,3 +122,21 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
     reducir.addEventListener('change', recalcular);
   </script>
 )}
+
+<script>
+  // Desplegable de PROJECTS (todas las páginas): al abrirse, cada proyecto de la
+  // lista se vuelve blanco si queda encima de una zona oscura de una foto.
+  import { ajustarContraste } from '../scripts/contraste';
+  const desplegable = document.querySelector<HTMLElement>('.nav-desplegable');
+  const items = [...document.querySelectorAll<HTMLElement>('.nav-submenu a')];
+  if (desplegable) {
+    let abierto = false;
+    const revisar = () => { if (abierto) ajustarContraste(items); };
+    const abrir = () => { abierto = true; requestAnimationFrame(revisar); };
+    desplegable.addEventListener('mouseenter', abrir);
+    desplegable.addEventListener('focusin', abrir);
+    desplegable.addEventListener('mouseleave', () => { abierto = false; });
+    desplegable.addEventListener('focusout', () => { abierto = false; });
+    addEventListener('scroll', () => requestAnimationFrame(revisar), { passive: true });
+  }
+</script>
