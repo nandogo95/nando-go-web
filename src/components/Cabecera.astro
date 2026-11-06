@@ -1,12 +1,64 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
+const { inicio = false } = Astro.props;
 const ruta = Astro.url.pathname;
 ---
-<header class="cabecera">
+<header class:list={['cabecera', { 'cabecera-inicio': inicio }]}>
   <a href="/" class:list={['nav', { activo: ruta === '/' }]}>Home</a>
   <a href="/" class="cabecera-logo" aria-label="NANDO-GO, home">
-    <Image src={logo} alt="" width={150} loading="eager" />
+    <Image src={logo} alt="" width={150} widths={[150, 300, 600, 1200]} sizes={inicio ? '(max-width: 800px) 80vw, 50vw' : '150px'} loading="eager" />
   </a>
   <a href="/contact/" class:list={['nav', { activo: ruta.startsWith('/contact') }]}>About</a>
 </header>
+
+{inicio && (
+  <script>
+    // Portada: el logo empieza grande en el centro de la pantalla y, al bajar,
+    // se encoge hasta su sitio en la cabecera (en la primera pantalla y media de scroll).
+    const cab = document.querySelector<HTMLElement>('.cabecera-inicio')!;
+    const raiz = document.documentElement;
+    const logo = cab.querySelector<HTMLElement>('.cabecera-logo')!;
+    const img = logo.querySelector('img')!;
+    const intro = document.querySelector<HTMLElement>('.intro');
+    const reducir = matchMedia('(prefers-reduced-motion: reduce)');
+    const mobil = matchMedia('(max-width: 800px)');
+    let base: DOMRect | null = null;
+    let pendiente = false;
+
+    // Posición del logo en reposo (sin transformar), en coordenadas de la pantalla.
+    function medir() {
+      logo.style.transform = 'none';
+      base = logo.getBoundingClientRect();
+    }
+
+    function pintar() {
+      pendiente = false;
+      if (!intro || !base || reducir.matches) {
+        logo.style.transform = '';
+        raiz.style.setProperty('--p', '1');
+        return;
+      }
+      const recorrido = Math.max(1, intro.offsetHeight - innerHeight);
+      const p = Math.min(1, Math.max(0, scrollY / recorrido));
+      const e = 1 - Math.pow(1 - p, 3); // empieza rápido y frena al llegar
+      const ancho = Math.min(innerWidth * (mobil.matches ? 0.78 : 0.5), innerHeight * 0.75 * (base.width / base.height));
+      const escala = Math.max(1, ancho / base.width);
+      const dx = innerWidth / 2 - (base.left + base.width / 2);
+      const dy = innerHeight / 2 - (base.top + base.height / 2);
+      const k = 1 - e;
+      logo.style.transform = `translate(${dx * k}px, ${dy * k}px) scale(${1 + (escala - 1) * k})`;
+      raiz.style.setProperty('--p', p.toFixed(3));
+    }
+
+    const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); } };
+    const recalcular = () => { medir(); pintar(); };
+
+    cab.classList.add('animado');
+    recalcular();
+    if (!img.complete) img.addEventListener('load', recalcular, { once: true });
+    addEventListener('scroll', pedir, { passive: true });
+    addEventListener('resize', recalcular);
+    reducir.addEventListener('change', recalcular);
+  </script>
+)}
