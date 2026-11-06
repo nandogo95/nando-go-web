@@ -168,8 +168,57 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 .ficha h1, .ficha h2 { font-size: inherit; }
 .ficha span:nth-of-type(1) { justify-self: center; }
 
-/* Portada */
-.proyecto-fila { margin-bottom: clamp(48px, 8vw, 110px); }
+/* Portada: proyectos en filas de dos, una foto cuadrada por proyecto.
+   Al pasar el ratón aparecen número, nombre y año; en pantallas táctiles
+   (sin ratón) se muestran siempre, debajo de la foto. */
+.proyectos {
+  list-style: none;
+  margin: 0 0 clamp(48px, 8vw, 110px);
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(16px, 3vw, 48px);
+}
+.proyecto-tarjeta { position: relative; display: block; text-decoration: none; overflow: hidden; }
+.proyecto-tarjeta img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  transition: transform .8s ease;
+}
+.proyecto-info {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-content: center;
+  gap: 16px;
+  padding: clamp(16px, 2.2vw, 28px);
+  background: rgb(255 255 255 / .82);
+  color: var(--texto);
+  font-size: clamp(14px, 1.3vw, 18px);
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.proyecto-nombre { text-align: center; }
+.proyecto-tarjeta:hover .proyecto-info,
+.proyecto-tarjeta:focus-visible .proyecto-info { opacity: 1; }
+.proyecto-tarjeta:hover img { transform: scale(1.03); }
+
+@media (hover: none) {
+  .proyecto-info {
+    position: static;
+    opacity: 1;
+    background: none;
+    padding: 8px 0 0;
+    font-size: 14px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 2px 8px;
+  }
+  /* número y año arriba, pequeños; el nombre debajo, en su propia línea */
+  .proyecto-numero, .proyecto-año { grid-row: 1; font-size: 12px; color: var(--suave); }
+  .proyecto-nombre { grid-row: 2; grid-column: 1 / -1; text-align: left; line-height: 1.3; }
+}
 
 /* Página de proyecto */
 .proyecto .ficha { font-size: 16px; padding-top: 0; }
