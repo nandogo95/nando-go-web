@@ -63,8 +63,9 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   --cols: 4;
   --filas: 3;
   --sep: clamp(28px, 6vw, 120px);
-  --arriba: clamp(90px, 13vh, 150px);
-  --abajo: clamp(24px, 5vh, 60px);
+  /* mismo margen arriba y abajo: la cuadrícula queda centrada en la pantalla */
+  --arriba: clamp(48px, 9vh, 110px);
+  --abajo: var(--arriba);
   --lado: min(
     calc((100vw - 2 * var(--sep) - (var(--cols) - 1) * var(--sep)) / var(--cols)),
     calc((100svh - var(--arriba) - var(--abajo) - (var(--filas) - 1) * var(--sep)) / var(--filas))
@@ -90,17 +91,37 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   opacity: max(calc(.12 + var(--p, 1) * .5), calc((var(--p, 1) - .6) * 2.5));
 }
 
-/* Portada: texto de presentación tras la intro */
-/* Los dos párrafos (inglés y español) caben a la vez en una pantalla. */
-/* Sube sobre el final de la intro: empieza a verse mientras el logo aún se está
-   encogiendo, y cuando el logo llega a la cabecera queda justo debajo de ella. */
-.manifiesto {
+/* Portada: texto de presentación tras la intro.
+   - El tramo sube sobre el final de la intro (margin-top -100vh): el texto empieza
+     a verse mientras el logo aún se encoge.
+   - Cuando el logo llega a la cabecera, el texto queda centrado y se queda fijo
+     durante --pausa de scroll (la "resistencia"); los proyectos, que van después
+     del tramo, no asoman hasta que termina la pausa.
+   - Los dos párrafos (inglés y español) caben a la vez en una pantalla. */
+.manifiesto-tramo {
+  --pausa: 80vh;
   position: relative;
   z-index: 1;
+  height: calc(100vh + var(--pausa));
+  height: calc(100svh + var(--pausa));
+  margin-top: -100vh;
+  margin-top: -100svh;
+  margin-bottom: clamp(40px, 6vw, 100px);
+}
+.manifiesto-fijo {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: clamp(110px, 18vh, 170px); /* centrado en el espacio bajo la cabecera */
+}
+.manifiesto {
+  width: 100%;
   max-width: 1100px;
-  margin: -75vh auto clamp(80px, 12vw, 180px);
-  margin-top: -75svh;
-  padding: clamp(24px, 5vh, 64px) 0 0;
+  margin: 0 auto;
   font-size: clamp(14px, 1.45vw, 22px);
   line-height: 1.38;
 }

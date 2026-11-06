@@ -1,8 +1,11 @@
 ---
 // Texto de presentación de la portada, justo después de la intro del logo.
-// Texto grande; cada párrafo aparece suavemente al entrar en pantalla.
+// Entra mientras el logo se encoge, se queda fijo en el centro de la pantalla
+// durante un tramo de scroll (la "pausa") y después deja paso a los proyectos.
 ---
-<section class="manifiesto" aria-label="About NANDO-GO">
+<section class="manifiesto-tramo" aria-label="About NANDO-GO">
+<div class="manifiesto-fijo">
+<div class="manifiesto">
   <p class="manifiesto-en">
     NANDO-GO, an architectural firm founded in 2024 by Fernando González Piris and based in Madrid,
     approaches architecture as a cultural mission aimed at enhancing the human environment. The firm
@@ -20,6 +23,8 @@
     soluciones prácticas y técnicas con diseños innovadores, inspirándose en una amplia gama de teorías
     arquitectónicas.
   </p>
+</div>
+</div>
 </section>
 
 <script>
