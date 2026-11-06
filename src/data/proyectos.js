@@ -14,6 +14,34 @@ function fotosDe(slug) {
 
 const lista = [
   {
+    slug: 'oficina-en-amparo',
+    carpeta: 'oficina-en-amparo',
+    titulo: 'Oficina en Amparo',
+    numero: '004',
+    año: '2025',
+    descripcion: 'Renovation of a 36 m² street-level office in Madrid: a narrow, deep space organised with custom-built furniture, a suspended metal ceiling and a blue terrazzo floor.',
+    en: [
+      'This project transforms a small street-level premises in a traditional Madrid building into a compact, fully functional office. With only 36 m² arranged as a narrow, deep sequence of rooms, the challenge was to make every metre count without losing a sense of openness and light.',
+      'The space is organised as a linear sequence: the workspace opens onto the street, while the rear rooms hold the service areas, a kitchenette and a bathroom. In the office, custom-built furniture runs along the walls: angled desks fold around the workstations, and shelves with integrated lighting and low storage units keep everything within reach while leaving the circulation clear.',
+      'A suspended metal ceiling with linear lighting runs the length of the room, lowering the scale of the space and spreading light evenly. Underfoot, a blue terrazzo floor ties the project together, echoed in the curtains and furniture. The original facade opening is kept and fitted with a new frame, connecting the office with the street while respecting the character of the building.',
+    ],
+    es: [
+      'El proyecto transforma un pequeño local a pie de calle, en un edificio tradicional de Madrid, en una oficina compacta y completamente funcional. Con solo 36 m² organizados como una secuencia de estancias estrecha y profunda, el reto era aprovechar cada metro sin perder la sensación de amplitud y luz.',
+      'El espacio se organiza de forma lineal: la zona de trabajo se abre a la calle y las estancias del fondo acogen los servicios, una pequeña cocina y el baño. En la oficina, el mobiliario a medida recorre los muros: mesas en ángulo que se pliegan alrededor de los puestos de trabajo, estantes con iluminación integrada y muebles bajos de almacenaje que lo mantienen todo a mano y dejan libre la circulación.',
+      'Un techo metálico suspendido con iluminación lineal recorre la estancia, ajusta la escala del espacio y reparte la luz de forma homogénea. En el suelo, un terrazo azul da unidad al proyecto y se repite en las cortinas y el mobiliario. Se conserva el hueco original de fachada con una nueva carpintería, que conecta la oficina con la calle respetando el carácter del edificio.',
+    ],
+    datos: [
+      ['Year', '2025'],
+      ['Location', 'Madrid'],
+      ['Type', 'Office Renovation'],
+      ['Status', 'Built'],
+      ['Area', '36 m²'],
+      ['Client', 'Private'],
+      ['Photographs', 'Guillermo Guisasola'],
+    ],
+    mapa: 'Calle del Amparo, Madrid',
+  },
+  {
     slug: 'chivas-scraworld-barcelona-pavilion',
     carpeta: 'chivas-barcelona-pavilion',
     titulo: 'Chivas / Scrapworld Barcelona Pavilion',
