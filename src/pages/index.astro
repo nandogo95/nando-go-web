@@ -3,30 +3,36 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Intro from '../components/Intro.astro';
 import Manifiesto from '../components/Manifiesto.astro';
+import Equipo from '../components/Equipo.astro';
+import Contacto from '../components/Contacto.astro';
 import { proyectos } from '../data/proyectos.js';
 ---
 <Base inicio>
   <h1 class="oculto">NANDO-GO — Architecture studio in Madrid</h1>
   <Intro />
   <Manifiesto />
-  <h2 class="oculto">Projects</h2>
-  <ul class="proyectos">
-    {proyectos.map((p) => (
-      <li>
-        <a class="proyecto-tarjeta" href={`/${p.slug}/`}>
-          <Image
-            src={p.portada ?? p.fotos[0]}
-            alt={p.titulo}
-            widths={[400, 700, 1000, 1400]}
-            sizes="(max-width: 800px) 100vw, 50vw"
-          />
-          <span class="proyecto-info">
-            <span class="proyecto-numero">{p.numero}</span>
-            <span class="proyecto-nombre">{p.tituloCorto ?? p.titulo}</span>
-            <span class="proyecto-año">{p.año}</span>
-          </span>
-        </a>
-      </li>
-    ))}
-  </ul>
+  <section id="projects" class="seccion" aria-labelledby="titulo-projects">
+    <h2 id="titulo-projects" class="oculto">Projects</h2>
+    <ul class="proyectos">
+      {proyectos.map((p) => (
+        <li>
+          <a class="proyecto-tarjeta" href={`/${p.slug}/`}>
+            <Image
+              src={p.portada ?? p.fotos[0]}
+              alt={p.titulo}
+              widths={[400, 700, 1000, 1400]}
+              sizes="(max-width: 800px) 100vw, 50vw"
+            />
+            <span class="proyecto-info">
+              <span class="proyecto-numero">{p.numero}</span>
+              <span class="proyecto-nombre">{p.tituloCorto ?? p.titulo}</span>
+              <span class="proyecto-año">{p.año}</span>
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <Equipo />
+  <Contacto />
 </Base>
