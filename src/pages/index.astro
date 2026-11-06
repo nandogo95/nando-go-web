@@ -1,12 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import Intro from '../components/Intro.astro';
+import Manifiesto from '../components/Manifiesto.astro';
 import Carrusel from '../components/Carrusel.astro';
 import { proyectos } from '../data/proyectos.js';
 ---
 <Base inicio>
   <h1 class="oculto">NANDO-GO — Architecture studio in Madrid</h1>
   <Intro />
+  <Manifiesto />
   {proyectos.map((p) => (
     <section class="proyecto-fila" aria-labelledby={`p-${p.slug}`}>
       <Carrusel fotos={p.fotos} alt={p.titulo} enlace={`/${p.slug}/`} />
