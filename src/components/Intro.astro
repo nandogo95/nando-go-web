@@ -19,7 +19,7 @@ for (let vuelta = 0; fotos.length < 12 && vuelta < 10; vuelta++) {
     <div class="intro-rejilla">
       {fotos.map(({ f, p }, i) => (
         <a href={`/${p.slug}/`} class="intro-celda" tabindex="-1" aria-hidden="true">
-          <Image src={f} alt="" widths={[300, 600]} sizes="(max-width: 800px) 45vw, 22vw" loading={i < 8 ? 'eager' : 'lazy'} />
+          <Image src={f} alt="" widths={[300, 600]} sizes="(max-width: 800px) 45vw, 22vw" loading="eager" />
         </a>
       ))}
     </div>

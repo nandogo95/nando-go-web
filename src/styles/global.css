@@ -57,22 +57,37 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   margin-left: calc(50% - 50vw);
 }
 .intro-fija { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+/* Fotos cuadradas y bien separadas: el lado de cada foto es el mayor que permite
+   que quepan todas (4×3 en ordenador, 3×4 en móvil) con la separación --sep. */
 .intro-rejilla {
+  --cols: 4;
+  --filas: 3;
+  --sep: clamp(28px, 6vw, 120px);
+  --arriba: clamp(90px, 13vh, 150px);
+  --abajo: clamp(24px, 5vh, 60px);
+  --lado: min(
+    calc((100vw - 2 * var(--sep) - (var(--cols) - 1) * var(--sep)) / var(--cols)),
+    calc((100svh - var(--arriba) - var(--abajo) - (var(--filas) - 1) * var(--sep)) / var(--filas))
+  );
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  gap: clamp(12px, 3vw, 56px);
+  grid-template-columns: repeat(var(--cols), var(--lado));
+  grid-template-rows: repeat(var(--filas), var(--lado));
+  gap: var(--sep);
+  justify-content: center;
+  align-content: center;
   height: 100%;
-  padding: clamp(80px, 12vh, 140px) clamp(24px, 8vw, 140px) clamp(24px, 6vh, 64px);
+  padding: var(--arriba) 0 var(--abajo);
   transform: scale(calc(1 + var(--p, 1) * .06));
 }
-.intro-celda { display: block; min-height: 0; }
+.intro-celda { display: block; min-height: 0; aspect-ratio: 1; }
 .intro-celda img { width: 100%; height: 100%; object-fit: cover; }
 .intro-velo {
   position: absolute; inset: 0; pointer-events: none;
   background: #fff;
-  /* las fotos se aclaran pero siguen viéndose detrás del texto (máx. 72 % de blanco) */
-  opacity: calc(.12 + var(--p, 1) * .6);
+  /* Las fotos se aclaran poco a poco y siguen viéndose mientras entra el texto;
+     en el último tramo (desde el 60 %) se funden a blanco del todo, justo cuando
+     el texto llega al centro de la pantalla. */
+  opacity: max(calc(.12 + var(--p, 1) * .5), calc((var(--p, 1) - .6) * 2.5));
 }
 
 /* Portada: texto de presentación tras la intro */
@@ -173,7 +188,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   .carrusel-foto { flex-basis: 100%; }
   .proyecto-cuerpo { grid-template-columns: 1fr; }
   .ficha { grid-template-columns: 1fr auto auto; }
-  .intro-rejilla { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); }
+  .intro-rejilla { --cols: 3; --filas: 4; --sep: clamp(20px, 6vw, 40px); }
 }
 @media (prefers-reduced-motion: reduce) {
   .carrusel-pista { scroll-behavior: auto; }
