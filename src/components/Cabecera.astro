@@ -16,7 +16,7 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
 <header class:list={['cabecera', { 'cabecera-inicio': inicio }]}>
   <nav class="nav-grupo nav-izq" aria-label="Main">
     {izquierda.map(([id, texto, href], i) => (
-      <>{i > 0 && <span class="nav-sep" aria-hidden="true">/</span>}{id === 'projects'
+      <>{id === 'projects'
         ? (
           // PROJECTS: al pasar el ratón (o con el teclado) se despliega la lista de proyectos
           <span class="nav-desplegable">
@@ -38,7 +38,7 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
   </a>
   <nav class="nav-grupo nav-der" aria-label="Studio">
     {derecha.map(([id, texto, href], i) => (
-      <>{i > 0 && <span class="nav-sep" aria-hidden="true">/</span>}<a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]}>{texto}</a></>
+      <><a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]}>{texto}</a></>
     ))}
   </nav>
 </header>

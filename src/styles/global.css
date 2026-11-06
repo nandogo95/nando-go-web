@@ -28,26 +28,25 @@ h1, h2 { font-weight: 400; margin: 0; }
 
 main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 
-/* Cabecera: HOME / PROJECTS · logo · TEAM / CONTACT */
+/* Cabecera: HOME · PROJECTS · logo · TEAM · CONTACT
+   Cinco columnas iguales (cuatro enlaces y el logo en el centro): todo queda
+   repartido de forma equitativa, sin barras entre los enlaces. */
 .cabecera {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: repeat(5, 1fr);
+  justify-items: center;
   align-items: center;
   max-width: var(--ancho);
   margin: 0 auto;
   padding: 20px var(--margen) 32px;
 }
 .nav-grupo {
-  justify-self: center;
-  display: flex;
-  align-items: center;
-  gap: .6em;
+  display: contents; /* sus enlaces son columnas de la cabecera */
   font-size: 12px;
   letter-spacing: .08em;
   text-transform: uppercase;
   white-space: nowrap;
 }
-.nav-sep { color: var(--suave); }
 .cabecera .nav { text-decoration: none; transition: color .25s ease; }
 .cabecera .nav.activo { color: var(--azul); }
 
@@ -104,7 +103,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   opacity: calc((var(--p, 1) - .9) * 10);
   pointer-events: none;
 }
-.cabecera-inicio .nav-grupo { opacity: calc((var(--p, 1) - .55) * 2.5); }
+.cabecera-inicio .nav-grupo > * { opacity: calc((var(--p, 1) - .55) * 2.5); }
 .cabecera-inicio .cabecera-logo { display: block; transform-origin: center; will-change: transform; }
 
 .intro {
@@ -364,9 +363,7 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   .proyecto-cuerpo { grid-template-columns: 1fr; }
   .ficha { grid-template-columns: 1fr auto auto; }
   .intro-rejilla { --cols: 3; --filas: 4; --sep: clamp(20px, 6vw, 40px); }
-  .nav-grupo { font-size: 10px; letter-spacing: .03em; gap: .35em; }
-  .nav-izq { justify-self: start; }
-  .nav-der { justify-self: end; }
+  .nav-grupo { font-size: 10px; letter-spacing: .03em; }
   .cabecera-logo img { width: 76px; }
   .cabecera { padding-left: 12px; padding-right: 12px; column-gap: 8px; }
 }
