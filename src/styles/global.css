@@ -55,7 +55,6 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   height: 210vh;
   width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-bottom: clamp(24px, 4vw, 48px);
 }
 .intro-fija { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .intro-rejilla {
@@ -72,20 +71,26 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 .intro-velo {
   position: absolute; inset: 0; pointer-events: none;
   background: #fff;
-  opacity: calc(.2 + var(--p, 1) * .8);
+  /* las fotos se aclaran pero siguen viéndose detrás del texto (máx. 72 % de blanco) */
+  opacity: calc(.12 + var(--p, 1) * .6);
 }
 
 /* Portada: texto de presentación tras la intro */
 /* Los dos párrafos (inglés y español) caben a la vez en una pantalla. */
+/* Sube sobre el final de la intro: empieza a verse mientras el logo aún se está
+   encogiendo, y cuando el logo llega a la cabecera queda justo debajo de ella. */
 .manifiesto {
+  position: relative;
+  z-index: 1;
   max-width: 1100px;
-  margin: 0 auto clamp(80px, 12vw, 180px);
+  margin: -75vh auto clamp(80px, 12vw, 180px);
+  margin-top: -75svh;
   padding: clamp(24px, 5vh, 64px) 0 0;
   font-size: clamp(14px, 1.45vw, 22px);
   line-height: 1.38;
 }
-.manifiesto p { margin: 0 0 1.1em; }
-.manifiesto-es { color: var(--suave); }
+.manifiesto p { margin: 0 0 1.1em; text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 24px #fff; }
+.manifiesto-es { color: #444; }
 .manifiesto .oculto-al-cargar { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
 .manifiesto .oculto-al-cargar.visible { opacity: 1; transform: none; }
 
