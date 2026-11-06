@@ -1,0 +1,35 @@
+---
+// Texto de presentación de la portada, justo después de la intro del logo.
+// Texto grande; cada párrafo aparece suavemente al entrar en pantalla.
+---
+<section class="manifiesto" aria-label="About NANDO-GO">
+  <p class="manifiesto-en">
+    NANDO-GO, an architectural firm founded in 2024 by Fernando González Piris and based in Madrid,
+    approaches architecture as a cultural mission aimed at enhancing the human environment. The firm
+    places a strong emphasis on addressing critical issues such as sustainability, responsible material
+    sourcing, and future adaptability, viewing these challenges as opportunities to shape and improve
+    urban and social spaces. Our work pursues to seamlessly blend practical and technical solutions
+    with innovative designs, drawing inspiration from a diverse range of architectural theories.
+  </p>
+  <p class="manifiesto-es" lang="es">
+    NANDO-GO, fundado en 2024 por Fernando González Piris y con sede en Madrid, es un estudio de
+    arquitectura que aborda la arquitectura como una misión cultural destinada a mejorar el entorno
+    humano. El estudio pone un fuerte énfasis en abordar cuestiones críticas como la sostenibilidad,
+    el abastecimiento responsable de materiales y la adaptabilidad futura, viendo estos desafíos como
+    oportunidades para moldear y mejorar los espacios urbanos y sociales. Nuestro trabajo busca fusionar
+    soluciones prácticas y técnicas con diseños innovadores, inspirándose en una amplia gama de teorías
+    arquitectónicas.
+  </p>
+</section>
+
+<script>
+  const parrafos = document.querySelectorAll<HTMLElement>('.manifiesto p');
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const obs = new IntersectionObserver((entradas) => {
+      for (const e of entradas) {
+        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      }
+    }, { rootMargin: '0px 0px -15% 0px' });
+    for (const p of parrafos) { p.classList.add('oculto-al-cargar'); obs.observe(p); }
+  }
+</script>
