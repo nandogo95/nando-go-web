@@ -1,0 +1,28 @@
+---
+// Intro de la portada: cuadrícula de fotos de los proyectos que, al bajar,
+// se desvanece mientras el logo grande del centro se encoge hasta la cabecera.
+// La animación del logo está en Cabecera.astro (es el mismo logo de la cabecera).
+import { Image } from 'astro:assets';
+import { proyectos } from '../data/proyectos.js';
+
+// Hasta 12 fotos, repartidas entre los proyectos (una de cada uno por turnos).
+const fotos = [];
+for (let vuelta = 0; fotos.length < 12 && vuelta < 10; vuelta++) {
+  for (const p of proyectos) {
+    const f = p.fotos[vuelta * 2];
+    if (f && fotos.length < 12) fotos.push({ f, p });
+  }
+}
+---
+<section class="intro" aria-label="Projects">
+  <div class="intro-fija">
+    <div class="intro-rejilla">
+      {fotos.map(({ f, p }, i) => (
+        <a href={`/${p.slug}/`} class="intro-celda" tabindex="-1" aria-hidden="true">
+          <Image src={f} alt="" widths={[300, 600]} sizes="(max-width: 800px) 45vw, 22vw" loading={i < 8 ? 'eager' : 'lazy'} />
+        </a>
+      ))}
+    </div>
+    <div class="intro-velo"></div>
+  </div>
+</section>
