@@ -42,7 +42,8 @@ const ruta = Astro.url.pathname;
       const recorrido = Math.max(1, intro.offsetHeight - innerHeight);
       const p = Math.min(1, Math.max(0, scrollY / recorrido));
       const e = 1 - Math.pow(1 - p, 3); // empieza rápido y frena al llegar
-      const ancho = Math.min(innerWidth * (mobil.matches ? 0.78 : 0.5), innerHeight * 0.75 * (base.width / base.height));
+      // Tamaño del logo grande al empezar: 35 % del ancho de pantalla (55 % en móvil)
+      const ancho = Math.min(innerWidth * (mobil.matches ? 0.55 : 0.35), innerHeight * 0.525 * (base.width / base.height));
       const escala = Math.max(1, ancho / base.width);
       const dx = innerWidth / 2 - (base.left + base.width / 2);
       const dy = innerHeight / 2 - (base.top + base.height / 2);
