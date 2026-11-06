@@ -1,15 +1,46 @@
 ---
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
+import { proyectos } from '../data/proyectos.js';
 const { inicio = false } = Astro.props;
 const ruta = Astro.url.pathname;
+// Menú: HOME / PROJECTS a la izquierda del logo, TEAM / CONTACT a la derecha.
+// Cada enlace lleva a su sección de la portada. En la portada, el activo cambia
+// según la sección por la que vas (script de abajo); en las demás páginas,
+// las de proyecto marcan PROJECTS.
+const esProyecto = !inicio && ruta !== '/contact/' && ruta !== '/404/';
+const activo = inicio ? 'home' : esProyecto ? 'projects' : '';
+const izquierda = [['home', 'Home', '/'], ['projects', 'Projects', '/#projects']];
+const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']];
 ---
 <header class:list={['cabecera', { 'cabecera-inicio': inicio }]}>
-  <a href="/" class:list={['nav', { activo: ruta === '/' }]}>Home</a>
+  <nav class="nav-grupo nav-izq" aria-label="Main">
+    {izquierda.map(([id, texto, href], i) => (
+      <>{i > 0 && <span class="nav-sep" aria-hidden="true">/</span>}{id === 'projects'
+        ? (
+          // PROJECTS: al pasar el ratón (o con el teclado) se despliega la lista de proyectos
+          <span class="nav-desplegable">
+            <a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]} aria-haspopup="true">{texto}</a>
+            <ul class="nav-submenu">
+              {proyectos.map((p) => (
+                <li><a href={`/${p.slug}/`} aria-current={ruta === `/${p.slug}/` ? 'page' : undefined}>
+                  <span class="nav-submenu-num">{p.numero}</span> {p.tituloCorto ?? p.titulo}
+                </a></li>
+              ))}
+            </ul>
+          </span>
+        )
+        : <a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]}>{texto}</a>}</>
+    ))}
+  </nav>
   <a href="/" class="cabecera-logo" aria-label="NANDO-GO, home">
     <Image src={logo} alt="" width={150} widths={[150, 300, 600, 1200]} sizes={inicio ? '(max-width: 800px) 80vw, 50vw' : '150px'} loading="eager" />
   </a>
-  <a href="/contact/" class:list={['nav', { activo: ruta.startsWith('/contact') }]}>About</a>
+  <nav class="nav-grupo nav-der" aria-label="Studio">
+    {derecha.map(([id, texto, href], i) => (
+      <>{i > 0 && <span class="nav-sep" aria-hidden="true">/</span>}<a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]}>{texto}</a></>
+    ))}
+  </nav>
 </header>
 
 {inicio && (
@@ -51,6 +82,29 @@ const ruta = Astro.url.pathname;
       logo.style.transform = `translate(${dx * k}px, ${dy * k}px) scale(${1 + (escala - 1) * k})`;
       raiz.style.setProperty('--p', p.toFixed(3));
     }
+
+    // Menú: marca en azul la sección por la que vas. Una sección cuenta como
+    // actual cuando su parte de arriba pasa del 45 % de la pantalla; al llegar
+    // al final de la página se marca CONTACT.
+    const enlaces = [...cab.querySelectorAll<HTMLAnchorElement>('a[data-seccion]')];
+    const secciones = ['projects', 'team', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter((s): s is HTMLElement => !!s);
+    let actual = '';
+    function marcarSeccion() {
+      let id = 'home';
+      for (const s of secciones) if (s.getBoundingClientRect().top <= innerHeight * 0.45) id = s.id;
+      if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) id = 'contact';
+      if (id === actual) return;
+      actual = id;
+      for (const a of enlaces) {
+        const si = a.dataset.seccion === id;
+        a.classList.toggle('activo', si);
+        if (si) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current');
+      }
+    }
+    addEventListener('scroll', () => requestAnimationFrame(marcarSeccion), { passive: true });
+    marcarSeccion();
 
     const pedir = () => { if (!pendiente) { pendiente = true; requestAnimationFrame(pintar); } };
     const recalcular = () => { medir(); pintar(); };

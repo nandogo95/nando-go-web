@@ -1,0 +1,28 @@
+---
+// Sección TEAM de la portada: una foto cuadrada por persona, con nombre y cargo.
+// Las fotos se leen de src/assets/equipo/; si una persona aún no tiene foto,
+// se muestra un recuadro gris con sus iniciales.
+import { Image } from 'astro:assets';
+import { equipo } from '../data/proyectos.js';
+
+const fotos = import.meta.glob('../assets/equipo/*.{jpg,jpeg,png,webp}', { eager: true, import: 'default' });
+const personas = equipo.map((p) => ({
+  ...p,
+  imagen: p.foto ? fotos[`../assets/equipo/${p.foto}`] : null,
+  iniciales: p.nombre.split(/\s+/).map((n) => n[0]).slice(0, 2).join(''),
+}));
+---
+<section id="team" class="seccion equipo" aria-labelledby="titulo-team">
+  <h2 id="titulo-team" class="seccion-titulo">Team</h2>
+  <ul class="equipo-lista">
+    {personas.map((p) => (
+      <li class="persona">
+        {p.imagen
+          ? <Image src={p.imagen} alt={p.nombre} widths={[400, 800]} sizes="(max-width: 800px) 45vw, 30vw" class="persona-foto" />
+          : <div class="persona-foto persona-provisional" role="img" aria-label={`${p.nombre} (photo coming soon)`}><span>{p.iniciales}</span></div>}
+        <p class="persona-nombre">{p.nombre}</p>
+        <p class="persona-cargo">{p.cargo}</p>
+      </li>
+    ))}
+  </ul>
+</section>

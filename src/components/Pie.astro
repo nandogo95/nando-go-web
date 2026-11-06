@@ -2,14 +2,21 @@
 import { Image } from 'astro:assets';
 import logo from '../assets/logo.png';
 import { estudio } from '../data/proyectos.js';
+// En la portada los datos de contacto ya están en la sección CONTACT,
+// así que el pie solo lleva redes, logo y copyright.
+const { inicio = false } = Astro.props;
 const año = new Date().getFullYear();
 ---
 <footer class="pie">
-  <p class="pie-nombre">{estudio.nombre}</p>
-  <p>{estudio.cargo}</p>
-  <p><a href={`tel:${estudio.telefono.replace(/\s/g, '')}`}>{estudio.telefono}</a></p>
-  <p><a href={`mailto:${estudio.email}`}>{estudio.email}</a></p>
-  <p>{estudio.direccion}</p>
+  {!inicio && (
+    <>
+      <p class="pie-nombre">{estudio.nombre}</p>
+      <p>{estudio.cargo}</p>
+      <p><a href={`tel:${estudio.telefono.replace(/\s/g, '')}`}>{estudio.telefono}</a></p>
+      <p><a href={`mailto:${estudio.email}`}>{estudio.email}</a></p>
+      <p>{estudio.direccion}</p>
+    </>
+  )}
   <ul class="pie-redes">
     <li><a href={estudio.instagram} rel="me">Instagram</a></li>
     {estudio.linkedin && <li><a href={estudio.linkedin} rel="me">LinkedIn</a></li>}

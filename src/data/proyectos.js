@@ -143,3 +143,11 @@ export const estudio = {
   // Pon aquí la dirección de tu perfil de LinkedIn y aparecerá en el pie.
   linkedin: '',
 };
+
+// Equipo (sección TEAM de la portada). Para poner una foto: guárdala en
+// src/assets/equipo/ (cuadrada, mínimo 800 px) y escribe su nombre en `foto`,
+// por ejemplo foto: 'fernando.jpg'. Sin foto se muestra un recuadro con las iniciales.
+export const equipo = [
+  { nombre: 'Fernando González Piris', cargo: 'Founder & Architect', foto: '' },
+  { nombre: 'Zeynep', cargo: 'Senior Architect', foto: '' },
+];
