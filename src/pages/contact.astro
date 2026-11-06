@@ -1,0 +1,35 @@
+---
+// Página "About". Se queda en /contact/ porque es la dirección que ya tenía en WordPress.
+import Base from '../layouts/Base.astro';
+import { estudio } from '../data/proyectos.js';
+---
+<Base
+  title="About · NANDO-GO"
+  description="NANDO-GO, founded in 2024 by Fernando González Piris and based in Madrid, approaches architecture as a cultural mission aimed at enhancing the human environment."
+>
+  <article class="about">
+    <h1>About</h1>
+    <p>
+      NANDO-GO, an architectural firm founded in 2024 by Fernando González Piris and based in Madrid,
+      approaches architecture as a cultural mission aimed at enhancing the human environment. The firm
+      places a strong emphasis on addressing critical issues such as sustainability, responsible material
+      sourcing, and future adaptability, viewing these challenges as opportunities to shape and improve
+      urban and social spaces. Our work pursues to seamlessly blend practical and technical solutions
+      with innovative designs, drawing inspiration from a diverse range of architectural theories.
+    </p>
+    <p lang="es">
+      NANDO-GO, fundado en 2024 por Fernando González Piris y con sede en Madrid, es un estudio de
+      arquitectura que aborda la arquitectura como una misión cultural destinada a mejorar el entorno
+      humano. El estudio pone un fuerte énfasis en abordar cuestiones críticas como la sostenibilidad,
+      el abastecimiento responsable de materiales y la adaptabilidad futura, viendo estos desafíos como
+      oportunidades para moldear y mejorar los espacios urbanos y sociales. Nuestro trabajo busca fusionar
+      soluciones prácticas y técnicas con diseños innovadores, inspirándose en una amplia gama de teorías
+      arquitectónicas.
+    </p>
+    <dl class="proyecto-datos">
+      <div><dt>Contact:</dt> <dd><a href={`mailto:${estudio.email}`}>{estudio.email}</a></dd></div>
+      <div><dt>Phone:</dt> <dd><a href={`tel:${estudio.telefono.replace(/\s/g, '')}`}>{estudio.telefono}</a></dd></div>
+      <div><dt>Address:</dt> <dd>{estudio.direccion}</dd></div>
+    </dl>
+  </article>
+</Base>

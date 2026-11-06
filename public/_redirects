@@ -1,0 +1,9 @@
+# Direcciones antiguas de WordPress que ya no existen
+/hello-world/ / 301
+/about/ /contact/ 301
+/feed/ / 301
+/comments/feed/ / 301
+/category/* / 301
+/author/* / 301
+/wp-admin/* / 301
+/wp-login.php / 301

@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+import logo from '../assets/logo.png';
+import { estudio } from '../data/proyectos.js';
+
+const {
+  title = 'NANDO-GO · Architecture studio in Madrid',
+  description = 'NANDO-GO is an architecture studio founded in 2024 by Fernando González Piris in Madrid: ephemeral architecture, renovations and new buildings.',
+  image,
+} = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site);
+const og = new URL(image ?? logo.src, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="NANDO-GO" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta property="og:image" content={og} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'ProfessionalService',
+      name: 'NANDO-GO',
+      url: 'https://nando-go.com',
+      founder: estudio.nombre,
+      telephone: estudio.telefono,
+      email: estudio.email,
+      address: { '@type': 'PostalAddress', streetAddress: 'Calle del Amparo 95', postalCode: '28012', addressLocality: 'Madrid', addressCountry: 'ES' },
+      sameAs: [estudio.instagram, estudio.linkedin].filter(Boolean),
+    })} />
+  </head>
+  <body>
+    <a class="saltar" href="#contenido">Skip to content</a>
+    <Cabecera />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+  </body>
+</html>

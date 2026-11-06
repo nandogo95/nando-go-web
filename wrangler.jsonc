@@ -1,0 +1,11 @@
+{
+  // Web estática servida desde Cloudflare (Workers con assets). Publicar: npm run deploy
+  // El dominio nando-go.com se añade cuando la web esté revisada (ver README, «Pasar el dominio»).
+  "name": "nando-go-web",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+    "html_handling": "force-trailing-slash"
+  }
+}

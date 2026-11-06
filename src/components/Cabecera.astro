@@ -1,0 +1,12 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+const ruta = Astro.url.pathname;
+---
+<header class="cabecera">
+  <a href="/" class:list={['nav', { activo: ruta === '/' }]}>Home</a>
+  <a href="/" class="cabecera-logo" aria-label="NANDO-GO, home">
+    <Image src={logo} alt="" width={150} loading="eager" />
+  </a>
+  <a href="/contact/" class:list={['nav', { activo: ruta.startsWith('/contact') }]}>About</a>
+</header>
