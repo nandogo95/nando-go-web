@@ -66,8 +66,10 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   transition: opacity .2s ease, visibility .2s;
   z-index: 30;
 }
-/* Fondo transparente; un halo blanco suave mantiene el texto legible sobre fotos */
-.nav-submenu li { background: transparent; text-shadow: 0 0 6px #fff, 0 0 12px #fff, 0 0 18px #fff; }
+/* Fondo transparente, sin halo. Si un enlace queda sobre una zona oscura de una
+   foto, se vuelve blanco (clase .sobre-oscuro, ver src/scripts/contraste.ts). */
+.nav-submenu li { background: transparent; }
+.cabecera a.sobre-oscuro, .cabecera a.sobre-oscuro .nav-submenu-num { color: #fff; }
 .nav-submenu li:first-child { padding-top: 8px; }
 .nav-submenu li:last-child { padding-bottom: 8px; }
 .nav-submenu a {
@@ -163,6 +165,9 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   margin-top: -100vh;
   margin-top: -100svh;
   margin-bottom: clamp(40px, 6vw, 100px);
+  /* Contraste automático sin halo: el texto es blanco y se "resta" de lo que
+     tiene detrás. Sobre blanco se ve negro; sobre una foto oscura, claro. */
+  mix-blend-mode: difference;
 }
 .manifiesto-fijo {
   position: sticky;
@@ -181,8 +186,9 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   font-size: clamp(14px, 1.45vw, 22px);
   line-height: 1.38;
 }
-.manifiesto p { margin: 0 0 1.1em; text-shadow: 0 0 6px #fff, 0 0 14px #fff, 0 0 24px #fff; }
-.manifiesto-es { color: #444; }
+.manifiesto { color: #fff; }        /* sobre blanco se ve negro (#000) */
+.manifiesto p { margin: 0 0 1.1em; }
+.manifiesto-es { color: #bbb; }     /* sobre blanco se ve gris oscuro (#444) */
 .manifiesto .oculto-al-cargar { opacity: 0; transform: translateY(40px); transition: opacity 1s ease, transform 1s ease; }
 .manifiesto .oculto-al-cargar.visible { opacity: 1; transform: none; }
 
