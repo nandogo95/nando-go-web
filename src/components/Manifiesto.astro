@@ -23,13 +23,17 @@
 </section>
 
 <script>
-  const parrafos = document.querySelectorAll<HTMLElement>('.manifiesto p');
+  // Los dos párrafos aparecen juntos cuando el texto entra en pantalla.
+  const seccion = document.querySelector<HTMLElement>('.manifiesto')!;
+  const parrafos = seccion.querySelectorAll<HTMLElement>('p');
   if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    for (const p of parrafos) p.classList.add('oculto-al-cargar');
     const obs = new IntersectionObserver((entradas) => {
-      for (const e of entradas) {
-        if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+      if (entradas.some((e) => e.isIntersecting)) {
+        for (const p of parrafos) p.classList.add('visible');
+        obs.disconnect();
       }
     }, { rootMargin: '0px 0px -15% 0px' });
-    for (const p of parrafos) { p.classList.add('oculto-al-cargar'); obs.observe(p); }
+    obs.observe(seccion);
   }
 </script>
