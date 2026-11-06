@@ -187,8 +187,15 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
   margin: 0 0 clamp(48px, 8vw, 110px);
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(16px, 3vw, 48px);
+  --sep-proyectos: clamp(16px, 3vw, 48px);
+  /* cada foto ocupa el 70 % de media columna; las dos quedan centradas */
+  grid-template-columns: repeat(2, calc((100% - var(--sep-proyectos)) / 2 * .7));
+  justify-content: center;
+  gap: var(--sep-proyectos);
+}
+@media (max-width: 800px) {
+  /* en el móvil las fotos ya son pequeñas: ocupan toda la media columna */
+  .proyectos { grid-template-columns: repeat(2, 1fr); }
 }
 .proyecto-tarjeta { position: relative; display: block; text-decoration: none; overflow: hidden; }
 .proyecto-tarjeta img {
