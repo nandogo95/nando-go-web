@@ -5,7 +5,7 @@
   --texto: #111111;
   --suave: #6b6b6b;
   --linea: #e6e6e6;
-  --azul: #1340ff;
+  --azul: #0040ff; /* el azul del logo */
   --ancho: 1400px;
   --margen: clamp(16px, 4vw, 48px);
   font-family: Arial, Helvetica, 'Helvetica Neue', sans-serif;
