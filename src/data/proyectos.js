@@ -137,7 +137,7 @@ export const estudio = {
   nombre: 'Fernando González Piris',
   cargo: 'Architect',
   telefono: '+34 630 183 956',
-  email: 'fernando.glez.piris@gmail.com',
+  email: 'fernando@nando-go.com',
   direccion: 'Calle del Amparo 95, 28012 Madrid, Spain',
   instagram: 'https://www.instagram.com/nando.go/',
   // Pon aquí la dirección de tu perfil de LinkedIn y aparecerá en el pie.
