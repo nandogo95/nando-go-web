@@ -1,0 +1,52 @@
+---
+// Página de cada proyecto: nando-go.com/<slug>/
+import Base from '../layouts/Base.astro';
+import Carrusel from '../components/Carrusel.astro';
+import { proyectos } from '../data/proyectos.js';
+
+export function getStaticPaths() {
+  return proyectos.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props;
+const i = proyectos.indexOf(p);
+const siguiente = proyectos[(i + 1) % proyectos.length];
+---
+<Base title={`${p.titulo} · NANDO-GO`} description={p.descripcion} image={p.fotos[0]?.src}>
+  <article class="proyecto">
+    <header class="ficha">
+      <h1>{p.titulo}</h1>
+      <span>{p.numero}</span>
+      <span>{p.año}</span>
+    </header>
+
+    <Carrusel fotos={p.fotos} alt={p.titulo} primeraEager />
+
+    <div class="proyecto-cuerpo">
+      <div class="proyecto-texto">
+        {p.en.map((t) => <p>{t}</p>)}
+        <div lang="es">
+          {p.es.map((t) => <p>{t}</p>)}
+        </div>
+      </div>
+      <dl class="proyecto-datos">
+        {p.datos.map(([k, v]) => (
+          <div><dt>{k}:</dt> <dd>{v}</dd></div>
+        ))}
+      </dl>
+    </div>
+
+    {p.mapa && (
+      <iframe
+        class="mapa"
+        title={`Map: ${p.mapa}`}
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src={`https://maps.google.com/maps?q=${encodeURIComponent(p.mapa)}&t=m&z=14&output=embed&iwloc=near`}
+      ></iframe>
+    )}
+
+    <nav class="siguiente" aria-label="More projects">
+      <a href={`/${siguiente.slug}/`}>Next project: {siguiente.titulo} →</a>
+    </nav>
+  </article>
+</Base>

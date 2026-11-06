@@ -1,0 +1,46 @@
+---
+// Carrusel de fotos: se desliza con el dedo o el trackpad, y con las flechas.
+// Funciona sin JavaScript (desplazamiento horizontal); el script solo añade las flechas.
+import { Image } from 'astro:assets';
+const { fotos, alt, enlace, primeraEager = false } = Astro.props;
+---
+<div class="carrusel">
+  <div class="carrusel-pista" tabindex="0" aria-label={`Photos: ${alt}`}>
+    {fotos.map((f, i) => {
+      const img = (
+        <Image
+          src={f}
+          alt={`${alt}, image ${i + 1} of ${fotos.length}`}
+          widths={[600, 1000, 1600]}
+          sizes="(max-width: 800px) 100vw, 50vw"
+          loading={primeraEager && i === 0 ? 'eager' : 'lazy'}
+        />
+      );
+      return <figure class="carrusel-foto">{enlace ? <a href={enlace} tabindex="-1">{img}</a> : img}</figure>;
+    })}
+  </div>
+  <button type="button" class="carrusel-flecha ant" aria-label="Previous image" hidden>‹</button>
+  <button type="button" class="carrusel-flecha sig" aria-label="Next image" hidden>›</button>
+</div>
+
+<script>
+  for (const c of document.querySelectorAll<HTMLElement>('.carrusel')) {
+    const pista = c.querySelector<HTMLElement>('.carrusel-pista')!;
+    const ant = c.querySelector<HTMLButtonElement>('.ant')!;
+    const sig = c.querySelector<HTMLButtonElement>('.sig')!;
+    const paso = () => pista.clientWidth;
+    const actualizar = () => {
+      ant.disabled = pista.scrollLeft <= 2;
+      sig.disabled = pista.scrollLeft + pista.clientWidth >= pista.scrollWidth - 2;
+    };
+    ant.hidden = sig.hidden = false;
+    ant.addEventListener('click', () => pista.scrollBy({ left: -paso(), behavior: 'smooth' }));
+    sig.addEventListener('click', () => pista.scrollBy({ left: paso(), behavior: 'smooth' }));
+    pista.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); ant.click(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); sig.click(); }
+    });
+    pista.addEventListener('scroll', actualizar, { passive: true });
+    new ResizeObserver(actualizar).observe(pista);
+  }
+</script>
