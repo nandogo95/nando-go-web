@@ -8,8 +8,10 @@ const ruta = Astro.url.pathname;
 // Cada enlace lleva a su sección de la portada. En la portada, el activo cambia
 // según la sección por la que vas (script de abajo); en las demás páginas,
 // las de proyecto marcan PROJECTS.
-const esProyecto = !inicio && ruta !== '/contact/' && ruta !== '/404/';
-const activo = inicio ? 'home' : esProyecto ? 'projects' : '';
+// Las páginas del blog marcan CONTACT, que es donde cuelga BLOG en el menú.
+const esBlog = ruta.startsWith('/blog/');
+const esProyecto = !inicio && !esBlog && ruta !== '/contact/' && ruta !== '/404/';
+const activo = inicio ? 'home' : esProyecto ? 'projects' : esBlog ? 'contact' : '';
 const izquierda = [['home', 'Home', '/'], ['projects', 'Projects', '/#projects']];
 const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']];
 ---
@@ -38,7 +40,17 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
   </a>
   <nav class="nav-grupo nav-der" aria-label="Studio">
     {derecha.map(([id, texto, href], i) => (
-      <><a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]}>{texto}</a></>
+      <>{id === 'contact'
+        ? (
+          // CONTACT: al pasar el ratón se despliega BLOG debajo
+          <span class="nav-desplegable">
+            <a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]} aria-haspopup="true">{texto}</a>
+            <ul class="nav-submenu nav-submenu-corto">
+              <li><a href="/blog/" aria-current={esBlog ? 'page' : undefined}>Blog</a></li>
+            </ul>
+          </span>
+        )
+        : <a href={href} data-seccion={id} class:list={['nav', { activo: activo === id }]}>{texto}</a>}</>
     ))}
   </nav>
 </header>
@@ -124,12 +136,11 @@ const derecha = [['team', 'Team', '/#team'], ['contact', 'Contact', '/#contact']
 )}
 
 <script>
-  // Desplegable de PROJECTS (todas las páginas): al abrirse, cada proyecto de la
-  // lista se vuelve blanco si queda encima de una zona oscura de una foto.
+  // Desplegables de PROJECTS y CONTACT (todas las páginas): al abrirse, cada enlace
+  // de la lista se vuelve blanco si queda encima de una zona oscura de una foto.
   import { ajustarContraste } from '../scripts/contraste';
-  const desplegable = document.querySelector<HTMLElement>('.nav-desplegable');
-  const items = [...document.querySelectorAll<HTMLElement>('.nav-submenu a')];
-  if (desplegable) {
+  for (const desplegable of document.querySelectorAll<HTMLElement>('.nav-desplegable')) {
+    const items = [...desplegable.querySelectorAll<HTMLElement>('.nav-submenu a')];
     let abierto = false;
     const revisar = () => { if (abierto) ajustarContraste(items); };
     const abrir = () => { abierto = true; requestAnimationFrame(revisar); };
