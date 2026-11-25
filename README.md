@@ -21,6 +21,7 @@ La web se abre en http://localhost:4321.
 | Página About | `src/pages/contact.astro` |
 | Página de cada proyecto | `src/pages/[slug].astro` |
 | Colores, tipografía y maquetación | `src/styles/global.css` |
+| Entradas del blog (nando-go.com/blog/) | `src/content/blog/*.md` (instrucciones en `src/content.config.ts`) |
 | Logo | `src/assets/logo.png` |
 | Redirecciones de direcciones antiguas | `public/_redirects` |
 

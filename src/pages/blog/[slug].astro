@@ -1,0 +1,31 @@
+---
+// Página de cada entrada del blog: nando-go.com/blog/<slug>/
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import { entradasBlog, fechaCorta } from '../../data/blog.js';
+
+export async function getStaticPaths() {
+  const entradas = await entradasBlog();
+  return entradas.map((e) => ({ params: { slug: e.id }, props: { e } }));
+}
+const { e } = Astro.props;
+const { Content } = await render(e);
+const d = e.data;
+---
+<Base title={`${d.tituloSeo ?? d.titulo} · NANDO-GO`} description={d.descripcion} image={d.portada?.src} lang={d.lang}>
+  <article class="entrada">
+    <header class="entrada-cabecera">
+      <p class="entrada-meta">
+        <time datetime={d.fecha.toISOString().slice(0, 10)}>{fechaCorta(d.fecha)}</time>
+        <span>{d.categoria}</span>
+      </p>
+      <h1>{d.titulo}</h1>
+    </header>
+    {d.portada && <Image class="entrada-portada" src={d.portada} alt="" widths={[800, 1400]} sizes="(max-width: 800px) 100vw, 900px" loading="eager" />}
+    <div class="entrada-texto">
+      <Content />
+    </div>
+    <p class="siguiente"><a href="/blog/">← Blog</a></p>
+  </article>
+</Base>

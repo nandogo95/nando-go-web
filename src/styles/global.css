@@ -82,6 +82,9 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 }
 .nav-submenu a:hover, .nav-submenu a[aria-current='page'] { color: var(--azul); }
 .nav-submenu-num { color: var(--suave); font-size: 12px; margin-right: .4em; }
+/* Desplegable de CONTACT: un solo enlace (BLOG), centrado y en mayúsculas como el menú */
+.nav-submenu-corto { min-width: 0; text-align: center; }
+.nav-submenu-corto a { text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
 .nav-desplegable:hover .nav-submenu,
 .nav-desplegable:focus-within .nav-submenu { opacity: 1; visibility: visible; }
 @media (hover: none) { .nav-submenu { display: none; } }
@@ -312,6 +315,84 @@ main { max-width: var(--ancho); margin: 0 auto; padding: 0 var(--margen); }
 .about h1 { font-size: 14px; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 1.5em; }
 .about p { margin: 0 0 1.5em; }
 .about p[lang='es'] { color: var(--suave); }
+
+/* Blog: rejilla de celdas cuadradas separadas por líneas finas negras.
+   Cada celda: fecha arriba, foto (o el título en grande) en el centro y
+   categoría o título debajo. 4 columnas en ordenador, 2 en móvil. */
+.blog { margin-bottom: clamp(48px, 8vw, 110px); }
+.blog-rejilla {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0 1px 1px 0; /* sitio para los bordes que se solapan */
+}
+/* cada celda con su marco; los bordes vecinos se solapan y quedan de 1 px */
+.blog-rejilla li { border: 1px solid var(--texto); margin: 0 -1px -1px 0; }
+.blog-celda {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  justify-items: center;
+  align-items: center;
+  gap: 10px;
+  aspect-ratio: 1;
+  padding: 16px 16px 14px;
+  text-decoration: none;
+  text-align: center;
+  font-size: 13px;
+}
+.blog-celda time { font-variant-numeric: tabular-nums; }
+.blog-portada { width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+.blog-titular {
+  font-size: clamp(18px, 2.1vw, 30px);
+  line-height: 1.12;
+  text-transform: uppercase;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.blog-pie { max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.blog-celda:hover { color: var(--azul); }
+@media (max-width: 800px) {
+  .blog-rejilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .blog-celda { padding: 10px; font-size: 11px; gap: 6px; }
+  .blog-titular { font-size: clamp(13px, 4vw, 18px); }
+}
+
+/* Entrada del blog: columna de lectura centrada */
+.entrada { max-width: 760px; margin: 0 auto 60px; }
+.entrada-cabecera { text-align: center; padding-bottom: 28px; border-bottom: 1px solid var(--texto); margin-bottom: 40px; }
+.entrada-meta { display: flex; justify-content: center; gap: 1.5em; margin: 0 0 18px; font-size: 13px; color: var(--suave); }
+.entrada h1 { font-size: clamp(26px, 3.4vw, 42px); line-height: 1.12; text-transform: uppercase; }
+.entrada-portada { width: 100%; margin-bottom: 40px; }
+.entrada-texto { font-size: 16px; line-height: 1.65; }
+.entrada-texto h2 { font-size: 22px; line-height: 1.25; margin: 2.2em 0 .8em; }
+.entrada-texto h3 { font-size: 17px; font-weight: 700; margin: 1.8em 0 .6em; }
+.entrada-texto p { margin: 0 0 1.1em; }
+.entrada-texto ul, .entrada-texto ol { margin: 0 0 1.2em; padding-left: 1.4em; }
+.entrada-texto li { margin-bottom: .45em; }
+.entrada-texto li > ul { margin: .45em 0 0; }
+.entrada-texto a { color: var(--azul); }
+.entrada-texto table { width: 100%; border-collapse: collapse; margin: 0 0 1.2em; font-size: 14px; }
+.entrada-texto th, .entrada-texto td { border-bottom: 1px solid var(--linea); padding: 8px 10px 8px 0; text-align: left; vertical-align: top; }
+.entrada-texto th { border-bottom-color: var(--texto); font-weight: 700; }
+.entrada-cta { margin: 1.6em 0 2.4em; }
+.entrada-cta a {
+  display: inline-block;
+  padding: 12px 22px;
+  border: 1px solid var(--texto);
+  color: var(--texto) !important;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-size: 12px;
+}
+.entrada-cta a:hover { background: var(--texto); color: #fff !important; }
+@media (max-width: 800px) {
+  .entrada-texto table { display: block; overflow-x: auto; }
+}
 
 /* Secciones de la portada (TEAM, CONTACT). Al saltar desde el menú, dejan
    sitio arriba para la cabecera fija. */

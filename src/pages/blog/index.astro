@@ -1,0 +1,30 @@
+---
+// Blog: rejilla de entradas, la más reciente primero. Cada celda lleva la fecha
+// arriba, la foto de portada (o el título en grande si no hay) y la categoría debajo.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import { entradasBlog, fechaCorta } from '../../data/blog.js';
+
+const entradas = await entradasBlog();
+---
+<Base
+  title="Blog · NANDO-GO"
+  description="Blog de NANDO-GO, estudio de arquitectura en Madrid: guías, ideas y novedades sobre arquitectura, reformas e interiorismo."
+>
+  <section class="blog">
+    <h1 class="seccion-titulo">Blog</h1>
+    <ul class="blog-rejilla">
+      {entradas.map((e) => (
+        <li>
+          <a class="blog-celda" href={`/blog/${e.id}/`}>
+            <time datetime={e.data.fecha.toISOString().slice(0, 10)}>{fechaCorta(e.data.fecha)}</time>
+            {e.data.portada
+              ? <Image class="blog-portada" src={e.data.portada} alt="" widths={[300, 600]} sizes="(max-width: 800px) 50vw, 25vw" />
+              : <span class="blog-titular" lang={e.data.lang}>{e.data.tituloCorto ?? e.data.titulo}</span>}
+            <span class="blog-pie" lang={e.data.lang}>{e.data.portada ? (e.data.tituloCorto ?? e.data.titulo) : e.data.categoria}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
